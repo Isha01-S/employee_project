@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Performance Overview</title>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        canvas {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            display: block;
+            margin: 0 auto;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h2>Monthly Performance Overview</h2>
+    <canvas id="performanceChart" width="800" height="400"></canvas>
+
+    <script>
+        // Fetch performance data from API
+        fetch('/api/performance-data/',
+        {
+    method: 'GET',
+    headers: {
+        'Authorization': 'Token 2882eb23cacd0cb2934a2d8a9c6a28b7428f5421',  // <-- Replace with actual token
+        'Content-Type': 'application/json'
+    }
+}
+        )
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('performanceChart').getContext('2d');
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Average Rating',
+                            data: data.data,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { position: 'top' },
+                            title: { display: true, text: 'Monthly Performance Overview' }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 5,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching performance data:', error));
+    </script>
+</body>
+</html>

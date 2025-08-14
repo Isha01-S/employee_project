@@ -1,0 +1,58 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# =========================
+# Virtual Environment
+# =========================
+env/
+venv/
+ENV/
+.venv/
+
+# =========================
+# Django
+# =========================
+# Database
+*.sqlite3
+
+# Migrations (optional, you can commit if you want versioned migrations)
+*/migrations/*.pyc
+*/migrations/*.py[cod]
+*/migrations/__pycache__/
+
+# Static and media files
+staticfiles/
+media/
+
+# Logs
+*.log
+
+# =========================
+# Environment Variables
+# =========================
+.env
+.env.*
+
+# =========================
+# IDEs / Editors
+# =========================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+.pytest_cache/
+
+htmlcov/
+.coverage
+

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .chart-container {
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
+            height: 400px; /* set fixed height */
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee Analytics Dashboard</h1>
+
+    <h2>Monthly Attendance Overview</h2>
+    <div class="chart-container">
+        <canvas id="attendanceChart"></canvas>
+    </div>
+
+    <h2>Monthly Performance Overview</h2>
+    <div class="chart-container">
+        <canvas id="performanceChart"></canvas>
+    </div>
+
+    <script>
+        // Attendance Chart
+        fetch('/api/employees/employees/analytics/monthly-overview/',
+        {
+    method: 'GET',
+    headers: {
+        'Authorization': '2882eb23cacd0cb2934a2d8a9c6a28b7428f5421',  // <-- Replace with actual token
+        'Content-Type': 'application/json'
+    }
+}
+        )
+
+
+            .then(res => res.json())
+            .then(data => {
+                const ctx = document.getElementById('attendanceChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.labels,
+                        datasets: data.datasets.map(ds => ({
+                            label: ds.label,
+                            data: ds.data,
+                            backgroundColor: ds.label === 'Present' ? 'rgba(75, 192, 192, 0.6)' :
+                                             ds.label === 'Absent' ? 'rgba(255, 99, 132, 0.6)' :
+                                             'rgba(255, 206, 86, 0.6)'
+                        }))
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true, // keep aspect ratio
+                        scales: { y: { beginAtZero: true } },
+                        plugins: {
+                            legend: { position: 'top' },
+                            title: { display: true, text: 'Monthly Attendance Overview' }
+                        }
+                    }
+                });
+            })
+            .catch(err => console.error('Error fetching attendance data:', err));
+
+        // Performance Chart
+        fetch('/api/performance-data/',
+        {
+    method: 'GET',
+    headers: {
+        'Authorization': '2882eb23cacd0cb2934a2d8a9c6a28b7428f5421',  // <-- Replace with actual token
+        'Content-Type': 'application/json'
+    }
+}
+        )
+            .then(res => res.json())
+            .then(data => {
+                const ctx = document.getElementById('performanceChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Average Rating',
+                            data: data.data,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true, // keep aspect ratio
+                        scales: { y: { beginAtZero: true, max: 5 } },
+                        plugins: {
+                            legend: { position: 'top' },
+                            title: { display: true, text: 'Monthly Performance Overview' }
+                        }
+                    }
+                });
+            })
+            .catch(err => console.error('Error fetching performance data:', err));
+    </script>
+</body>
+</html>
