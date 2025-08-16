@@ -18,30 +18,48 @@ This project allows you to:
 ---
 
 ## 📂 Folder Structure
-
+```
 employee_project/
-├── employees/
-│ ├── models.py
-│ ├── serializers.py
-│ ├── views.py
-│ ├── urls.py
-│ └── management/commands/seed_data.py
-├── attendance/
-│ ├── models.py
-│ ├── serializers.py
-│ ├── views.py
-│ └── urls.py
-├── employee_project/
-│ ├── settings.py
-│ ├── urls.py
-│ └── wsgi.py
-├── templates/
-│ ├── analytics_dashboard.html
-│ ├── charts.html
-│ └── performance_charts.html
-├── requirements.txt
-├── .env
-└── README.md
+│
+├── attendance/                          # Handles employee attendance & performance tracking
+│   ├── migrations/                      # Database migration files
+│   │   └── __init__.py
+│   ├── admin.py                         # Register attendance models in Django admin
+│   ├── apps.py                          # App configuration for attendance
+│   ├── models.py                        # Database models (Attendance, Performance, etc.)
+│   ├── serializers.py                   # Serializers for converting models to JSON
+│   ├── tests.py                         # Unit tests for attendance app
+│   ├── urls.py                          # URL routes for attendance APIs
+│   └── views.py                         # API views for attendance & performance
+│
+├── employee_project/                    # Main Django project configuration
+│   ├── __init__.py
+│   ├── asgi.py                          # ASGI entry point (for async servers)
+│   ├── settings.py                      # Project settings (DB, apps, middleware, etc.)
+│   ├── urls.py                          # Root URL routing (includes all apps)
+│   └── wsgi.py                          
+│
+├── employees/                           # Manages employee details & operations
+│   ├── management/                      # Custom management commands
+│   │   └── commands/                    # (e.g., seed_data.py for populating DB)
+│   ├── migrations/                      # Database migration files
+│   │   └── __init__.py
+│   ├── admin.py                         # Register employee models in Django admin
+│   ├── apps.py                          # App configuration for employees
+│   ├── models.py                        # Employee models (details, roles, etc.)
+│   ├── serializers.py                   # Serializers for employee APIs
+│   ├── tests.py                         # Unit tests for employee app
+│   ├── urls.py                          # URL routes for employee APIs
+│   └── views.py                         # API views for employees (CRUD operations)
+│
+├── templates/                           # HTML templates for analytics
+│   ├── analytics_dashboard.html          # Main analytics dashboard
+│   ├── charts.html                       # Attendance & employee charts
+│   └── performance_charts.html           # Employee performance visualization
+│
+├── manage.py                            # Django CLI entry point
+└── requirements.txt                     # Python dependencies
+```
 
 ## ⚙️ Setup Instructions
 
@@ -59,7 +77,7 @@ pip install -r requirements.txt
 3. Configure environment variables
 
 Create a .env file  and update your DB credentials:
-
+```
 SECRET_KEY=your_secret_key_here
 DEBUG=True
 DB_NAME=your_db_name
@@ -67,7 +85,7 @@ DB_USER=your_db_user
 DB_PASSWORD=your_db_password
 DB_HOST=localhost
 DB_PORT=5432
-
+```
 4. Apply migrations
 python manage.py makemigrations
 python manage.py migrate
